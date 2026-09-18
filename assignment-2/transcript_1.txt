@@ -1,0 +1,18 @@
+Scenario: Transcript 1: Clean Run (Approved)
+Task: Draft a product description for a smart coffee mug.
+Agent B Criteria:
+1. Under 60 words.
+2. Mentions 'temperature control'.
+3. Mentions 'battery life'.
+
+--- AGENT A (WORKER) ---
+Instructions to Worker: Draft a 40-word description of a smart coffee mug. Make sure to highlight its temperature control feature and its 12-hour battery life.
+
+Draft Generated:
+Start your morning right with our sleek smart coffee mug. Featuring precise temperature control, your brew stays perfectly hot for hours. With an impressive 12-hour battery life, you can enjoy your coffee exactly how you like it, anywhere, all day.
+
+--- AGENT B (REVIEWER) ---
+Verdict: APPROVED
+Reasons: The product description meets all the criteria. It is under 60 words (41 words), explicitly mentions 'temperature control', and explicitly mentions 'battery life'.
+
+Total LLM Calls for this chain: 2

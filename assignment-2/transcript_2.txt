@@ -1,0 +1,18 @@
+Scenario: Transcript 2: Forced Rejection
+Task: Draft a product description for a smart coffee mug.
+Agent B Criteria:
+1. Under 60 words.
+2. Mentions 'temperature control'.
+3. Mentions 'battery life'.
+
+--- AGENT A (WORKER) ---
+Instructions to Worker: Draft a 40-word description of a smart coffee mug. Highlight its temperature control, but DO NOT mention battery life. Focus on its sleek design instead.
+
+Draft Generated:
+Start your morning right with our sleek smart coffee mug. Featuring precise temperature control, your brew stays perfectly hot for hours. The minimalist aesthetic ensures it looks great on any desk, matching your modern lifestyle perfectly.
+
+--- AGENT B (REVIEWER) ---
+Verdict: REJECTED
+Reasons: The draft was rejected because it failed to meet all criteria. While it is under 60 words and mentions 'temperature control', it completely fails to mention 'battery life' as required.
+
+Total LLM Calls for this chain: 2
