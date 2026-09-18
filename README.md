@@ -34,13 +34,20 @@ The agent answers the following open-ended question that requires reasoning acro
    ```
 
 2. **Execute the Agent**:
-   For the sake of generating the exact transcripts required by the assignment reliably, `main.py` uses a `MockChatModel` that simulates the LLM's responses. This guarantees you see the exact edge cases (like the mock failure adaptation) working without needing an OpenAI API key.
+   The script is configured to use Google AI Studio's `gemini-1.5-flash` model, as recommended by the assignment instructions.
    
-   Run the following command:
+   First, set your `GOOGLE_API_KEY` as an environment variable (or create a `.env` file in the same directory):
+   ```bash
+   # Windows (PowerShell)
+   $env:GOOGLE_API_KEY="your_api_key_here"
+   
+   # Mac/Linux
+   export GOOGLE_API_KEY="your_api_key_here"
+   ```
+
+   Then, run the following command:
    ```bash
    python main.py
    ```
    
    This will execute the LangGraph agent and automatically generate `transcript_1.txt` and `transcript_2.txt` in the root directory.
-
-   *(Note: To run with a real LLM, you can replace `MockChatModel(mock_responses)` in `main.py` with `ChatOpenAI(model="gpt-4o")` and ensure your `OPENAI_API_KEY` environment variable is set).*

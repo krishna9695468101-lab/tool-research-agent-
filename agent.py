@@ -41,21 +41,28 @@ tools = [web_search, calculator]
 def call_model(state: AgentState, llm):
     """Invokes the LLM to decide the next step."""
     messages = state['messages']
+    count = state.get('tool_call_count', 0)
+    
+    from langchain_core.messages import SystemMessage
+    system_prompt = SystemMessage(
+        content=(
+            "You are an autonomous research agent. You must think step-by-step and provide reasoning in your response before calling tools. "
+            f"You have used {count}/6 tool calls. If you reach 6, you must stop using tools and provide your final answer."
+        )
+    )
+    full_messages = [system_prompt] + messages
     
     # Constraint: Agent must stop if it hits the tool call limit
-    if state.get('tool_call_count', 0) >= 6:
-        # Assuming the LLM is instructed to output final answer or we restrict it.
-        # By not binding tools, the LLM is forced to output text (final answer).
+    if count >= 6:
         llm_with_tools = llm 
     else:
         llm_with_tools = llm.bind_tools(tools)
     
-    # In a real app, we'd inject a system prompt here if not already part of messages
-    response = llm_with_tools.invoke(messages)
+    response = llm_with_tools.invoke(full_messages)
     
     # Extract reasoning for our trace
     trace = state.get('reasoning_trace', [])
-    reason = response.content if response.content else f"Decided to invoke tools: {[tc['name'] for tc in response.tool_calls]}"
+    reason = response.content if response.content else f"Decided to invoke tools: {[tc.get('name') for tc in getattr(response, 'tool_calls', [])]}"
     new_trace = trace + [f"Agent planned step: {reason}"]
     
     return {"messages": [response], "reasoning_trace": new_trace}
